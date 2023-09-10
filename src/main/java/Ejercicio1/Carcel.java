@@ -14,6 +14,9 @@ public class Carcel {
     };
 
     public static void main(String[] args) {
+        final int totalPresos = 26;
+        //boolean presos = validarPresos(0,0);
+        //contarPresos(presos);
         Carcel m = new Carcel(); 												// construimos un objeto de la clase Laberinto por defecto
         m.carcel[1][1] = 'X'; 													// introducimos en este caso, la salida (X) en las coordenadas (1,1)
         m.resuelve(8, 1); 															// ahora, introducimos la entrada (S) en las coordenadas (8,1) y llamamos al algoritmo
@@ -29,43 +32,56 @@ public class Carcel {
 
     private boolean validarPreso(int x, int y) {
 
-        if (x <= carcel.length - 1 ) {
+        if (x <= carcel.length - 1) { // fila
+            if (y <= carcel[0].length - 1) { //columna
 
-            if(y <= carcel[0].length - 1){
-                if (carcel[x][y] == 'X') { // si hemos llegado a X quiere decir que hemos encontrado solución
+                if((y+1) <= carcel[0].length - 1 && carcel[x][y+1] == 'P'){ //si hay una P cuento el preso DERECHA
                     return true;
+                }else {
+                    if(carcel[x][y+1] == 'X' || carcel[x][y+1] == '*') {
+                        return false;
+                    }else {
+                        carcel[x][y] = carcel[x][y+1];
+                    }
                 }
 
-
-                if (carcel[x][y] == '#' || carcel[x][y] == '*' || carcel[x][y] == 'f') { // si llegamos a una pared o al mismo punto,
-                    return false; // entonces el laberinto no puede resolverse y termina.
+                if(carcel[x+1][y] == 'P'){ //si hay una P cuento el preso ABAJO
+                    return true;
+                }else {
+                    if(carcel[x+1][y] == 'X' || carcel[x+1][y] == '*') {
+                        return false;
+                    }else {
+                        carcel[x][y] = carcel[x+1][y];
+                    }
                 }
 
-                carcel[x][y] = '*'; // marcamos la posición como visitada (si es la primera, en las coordenadas x e y
+                if(carcel[x-1][y] == 'P'){ //si hay una P cuento el preso ARRIBA
+                    return true;
+                }else {
+                    if(carcel[x-1][y] == 'X' || carcel[x-1][y] == '*') {
+                        return false;
+                    }else {
+                        carcel[x][y] = carcel[x-1][y];
+                    }
+                }
 
-                boolean result; // se coloca S de START)
+                if(carcel[x][y-1] == 'P'){ //si hay una P cuento el preso IZQUIERDA
+                    return true;
+                }else {
+                    if(carcel[x][y-1] == 'X' || carcel[x][y-1] == '*') {
+                        return false;
+                    }else {
+                        carcel[x][y] = carcel[x][y-1];
+                    }
+                }
 
-                result = validarPreso(x, y + 1); // DERECHA.
-                if (result) return true;
-
-                result = validarPreso(x + 1, y); // ABAJO.
-                if (result) return true; /
-
-                result = validarPreso(x - 1, y); // ARRIBA.
-                if (result) return true;
-
-                result = validarPreso(x, y - 1); // IZQUIERDA.
-                if (result) return true;
-
-                carcel[x][y] = 'f'; // en el caso de no ser el resultado, se marca con +. Ya fue pisado
-                return false; // vuelta atrás si la solución no se encuentra aquí
-            }else {
-                return false;
             }
-        }else {
-            // Pendiente definir en el caso
-            return false;
+
         }
+    }
+
+    public int contarPresos(boolean funcion){
+        return 0;
     }
 
     private String imprimirCarcel() {
@@ -74,7 +90,7 @@ public class Carcel {
             for (int y=0; y<carcel[x].length; y++) { // recorremos columnas
                 salida += carcel[x][y] + " ";
             }
-            salida += "\n"; 
+            salida += "\n";
         }
         return salida;
     }
