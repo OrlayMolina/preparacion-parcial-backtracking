@@ -2,7 +2,7 @@ package Ejercicio1;
 
 public class Carcel {
 
-    public char[][] carcel={
+    public static char[][] carcel={
             {' ', 'P', 'X', ' ', 'P', 'P', ' ', 'P'},
             {' ', 'P', 'P', ' ', 'P', 'P', ' ', 'P'},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -15,33 +15,34 @@ public class Carcel {
 
     public static void main(String[] args) {
         final int totalPresos = 26;
-        //boolean presos = validarPresos(0,0);
-        //contarPresos(presos);
-        Carcel m = new Carcel(); 												// construimos un objeto de la clase Laberinto por defecto
-        m.carcel[1][1] = 'X'; 													// introducimos en este caso, la salida (X) en las coordenadas (1,1)
-        m.resuelve(8, 1); 															// ahora, introducimos la entrada (S) en las coordenadas (8,1) y llamamos al algoritmo
-        System.out.println(m.imprimirCarcel()); 								    // imprimimos el laberinto ya resuelto (si tiene solución)
+        int cantidadPresos = contarPresos(validarPreso(0,0));
+        int presosFaltantes = totalPresos-cantidadPresos;
+        Carcel m = new Carcel();
+        m.carcel[0][0] = ' ';
+        System.out.println(m.imprimirCarcel());
+        System.out.println("La cantidad de presos en la carcel es de: "+cantidadPresos);
+        System.out.println("La cantidad de presos faltantes es: "+presosFaltantes);
     }
 
-    /* ----------------- IMPLEMENTACIÓN DEL ALGORITMO ----------------- */
-    public void resuelve(int x, int y){ 				// permite introducir unas coordenadas (x, y)
-        if (validarPreso(x, y)) { 								// intentará resolver el laberinto en estas coordenadas
-            carcel[x][y] = 'S'; 						// introduce en las coordenadas (x, y) la entrada
-        }
-    }
+    private static boolean validarPreso(int x, int y) {
 
-    private boolean validarPreso(int x, int y) {
+        if (x <= carcel.length - 1 && x >= 0) { // fila
+            if (y <= carcel[0].length - 1 && y >= 0) { //columna
 
-        if (x <= carcel.length - 1) { // fila
-            if (y <= carcel[0].length - 1) { //columna
+                boolean derecha = moverDerecha(x, y);
+                boolean abajo = moverAbajo(x, y);
+                boolean izquierda = moverIzquierda(x, y);
+                boolean arriba = moverArriba(x, y);
 
-                moverDerecha(x, y);
-
-                moverAbajo(x, y);
-
-                moverIzquierda(x, y);
-
-                moverArriba(x, y);
+                if(derecha){
+                    return derecha;
+                }else if(abajo){
+                    return abajo;
+                }else if(izquierda){
+                    return izquierda;
+                }else if(arriba){
+                    return arriba;
+                }
 
             }
 
@@ -49,60 +50,70 @@ public class Carcel {
         return false;
     }
 
-    public boolean moverDerecha(int x, int y){
-        if((y+1) <= carcel[0].length - 1 && carcel[x][y+1] == 'P'){ //si hay una P cuento el preso DERECHA
-            return true;
-        }else {
-            if(carcel[x][y+1] == 'X' || carcel[x][y+1] == '*') {
-                return false;
+    public static boolean moverDerecha(int x, int y){
+        if(y < carcel[0].length){
+            if(y+1 <= carcel[0].length - 1 && carcel[x][y+1] == 'P'){ //si hay una P cuento el preso DERECHA
+                return true;
             }else {
-                carcel[x][y] = carcel[x][y+1];
-                return false;
+                if(carcel[x][y+1] == 'X' || carcel[x][y+1] == '*') {
+                    return false;
+                }
             }
+            carcel[x][y] = carcel[x][y+1];
         }
+        return false;
     }
 
-    public boolean moverAbajo(int x, int y){
-        if((x+1) <= carcel.length - 1 && carcel[x+1][y] == 'P'){ //si hay una P cuento el preso ABAJO
-            return true;
-        }else {
-            if(carcel[x+1][y] == 'X' || carcel[x+1][y] == '*') {
-                return false;
+    public static boolean moverAbajo(int x, int y){
+        if(x < carcel.length){
+            if((x+1) <= carcel.length - 1 && carcel[x+1][y] == 'P'){ //si hay una P cuento el preso ABAJO
+                return true;
             }else {
-                carcel[x][y] = carcel[x+1][y];
-                return false;
+                if(carcel[x+1][y] == 'X' || carcel[x+1][y] == '*') {
+                    return false;
+                }
             }
+            carcel[x][y] = carcel[x+1][y];
         }
+        return false;
     }
 
-    public boolean moverArriba(int x, int y){
-        if((x-1) <= carcel.length - 1 && carcel[x-1][y] == 'P'){ //si hay una P cuento el preso ARRIBA
-            return true;
-        }else {
-            if(carcel[x-1][y] == 'X' || carcel[x-1][y] == '*') {
-                return false;
+    public static boolean moverArriba(int x, int y){
+        if(x > 0){
+            if((x-1) <= carcel.length - 1 && carcel[x-1][y] == 'P'){ //si hay una P cuento el preso ARRIBA
+                return true;
             }else {
-                carcel[x][y] = carcel[x-1][y];
-                return false;
+                if(carcel[x-1][y] == 'X' || carcel[x-1][y] == '*') {
+                    return false;
+                }
             }
+            carcel[x][y] = carcel[x-1][y];
         }
+        return false;
     }
 
-    public boolean moverIzquierda(int x, int y){
-        if((y-1) <= carcel[0].length - 1 && carcel[x][y-1] == 'P'){ //si hay una P cuento el preso IZQUIERDA
-            return true;
-        }else {
-            if(carcel[x][y-1] == 'X' || carcel[x][y-1] == '*') {
-                return false;
+    public static boolean moverIzquierda(int x, int y){
+
+        if(y-1 > 0){
+            if((y-1) <= carcel[0].length - 1 && carcel[x][y-1] == 'P'){ //si hay una P cuento el preso IZQUIERDA
+                return true;
             }else {
-                carcel[x][y] = carcel[x][y-1];
-                return false;
+                if(carcel[x][y-1] == 'X' || carcel[x][y-1] == '*') {
+                    return false;
+                }
             }
+
+            carcel[x][y] = carcel[x][y-1];
         }
+        return false;
     }
 
-    public int contarPresos(boolean funcion){
-        return 0;
+    public static int contarPresos(boolean funcion){
+        int contador = 0;
+        if(funcion == true){
+            contador= contador+1;
+        }
+        return contador;
     }
 
     private String imprimirCarcel() {
