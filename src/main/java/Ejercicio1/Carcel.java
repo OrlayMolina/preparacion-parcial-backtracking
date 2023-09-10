@@ -35,48 +35,69 @@ public class Carcel {
         if (x <= carcel.length - 1) { // fila
             if (y <= carcel[0].length - 1) { //columna
 
-                if((y+1) <= carcel[0].length - 1 && carcel[x][y+1] == 'P'){ //si hay una P cuento el preso DERECHA
-                    return true;
-                }else {
-                    if(carcel[x][y+1] == 'X' || carcel[x][y+1] == '*') {
-                        return false;
-                    }else {
-                        carcel[x][y] = carcel[x][y+1];
-                    }
-                }
+                moverDerecha(x, y);
 
-                if(carcel[x+1][y] == 'P'){ //si hay una P cuento el preso ABAJO
-                    return true;
-                }else {
-                    if(carcel[x+1][y] == 'X' || carcel[x+1][y] == '*') {
-                        return false;
-                    }else {
-                        carcel[x][y] = carcel[x+1][y];
-                    }
-                }
+                moverAbajo(x, y);
 
-                if(carcel[x-1][y] == 'P'){ //si hay una P cuento el preso ARRIBA
-                    return true;
-                }else {
-                    if(carcel[x-1][y] == 'X' || carcel[x-1][y] == '*') {
-                        return false;
-                    }else {
-                        carcel[x][y] = carcel[x-1][y];
-                    }
-                }
+                moverIzquierda(x, y);
 
-                if(carcel[x][y-1] == 'P'){ //si hay una P cuento el preso IZQUIERDA
-                    return true;
-                }else {
-                    if(carcel[x][y-1] == 'X' || carcel[x][y-1] == '*') {
-                        return false;
-                    }else {
-                        carcel[x][y] = carcel[x][y-1];
-                    }
-                }
+                moverArriba(x, y);
 
             }
 
+        }
+        return false;
+    }
+
+    public boolean moverDerecha(int x, int y){
+        if((y+1) <= carcel[0].length - 1 && carcel[x][y+1] == 'P'){ //si hay una P cuento el preso DERECHA
+            return true;
+        }else {
+            if(carcel[x][y+1] == 'X' || carcel[x][y+1] == '*') {
+                return false;
+            }else {
+                carcel[x][y] = carcel[x][y+1];
+                return false;
+            }
+        }
+    }
+
+    public boolean moverAbajo(int x, int y){
+        if((x+1) <= carcel.length - 1 && carcel[x+1][y] == 'P'){ //si hay una P cuento el preso ABAJO
+            return true;
+        }else {
+            if(carcel[x+1][y] == 'X' || carcel[x+1][y] == '*') {
+                return false;
+            }else {
+                carcel[x][y] = carcel[x+1][y];
+                return false;
+            }
+        }
+    }
+
+    public boolean moverArriba(int x, int y){
+        if((x-1) <= carcel.length - 1 && carcel[x-1][y] == 'P'){ //si hay una P cuento el preso ARRIBA
+            return true;
+        }else {
+            if(carcel[x-1][y] == 'X' || carcel[x-1][y] == '*') {
+                return false;
+            }else {
+                carcel[x][y] = carcel[x-1][y];
+                return false;
+            }
+        }
+    }
+
+    public boolean moverIzquierda(int x, int y){
+        if((y-1) <= carcel[0].length - 1 && carcel[x][y-1] == 'P'){ //si hay una P cuento el preso IZQUIERDA
+            return true;
+        }else {
+            if(carcel[x][y-1] == 'X' || carcel[x][y-1] == '*') {
+                return false;
+            }else {
+                carcel[x][y] = carcel[x][y-1];
+                return false;
+            }
         }
     }
 
@@ -94,5 +115,8 @@ public class Carcel {
         }
         return salida;
     }
+    
+    
+    
 
 }
