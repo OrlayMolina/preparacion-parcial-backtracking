@@ -27,8 +27,7 @@ public class Carcel {
     private static boolean validarPreso(int x, int y) {
 
         if (x <= carcel.length - 1 && x >= 0) { // fila
-            if (y <= carcel[0].length - 1 && y >= 0) { //columna
-
+            if (y <= carcel[x].length - 1 && y >= 0) { //columna
                 boolean derecha = moverDerecha(x, y);
                 boolean abajo = moverAbajo(x, y);
                 boolean izquierda = moverIzquierda(x, y);
@@ -44,8 +43,15 @@ public class Carcel {
                     return arriba;
                 }
 
+                if(y == carcel[x].length-1)	{
+                    x++;
+                    y=0;
+                    System.out.println();
+                }else{
+                    y++;
+                }
+                validarPreso(x, y);
             }
-
         }
         return false;
     }
@@ -126,6 +132,7 @@ public class Carcel {
         }
         return salida;
     }
+
     
     
     
