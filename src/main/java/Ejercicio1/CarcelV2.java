@@ -21,10 +21,14 @@ public class CarcelV2 {
     /* --------------------- PRUEBA DEL ALGORITMO --------------------- */
 	public static void main(String[] args) {
 		CarcelV2 m = new CarcelV2();
+		final int totalPresos = 26;
 		presosEncontrados = 0;// construimos un objeto de la clase Laberinto por defecto
 		m.carcel[5][7] = 'C'; 												// introducimos en este caso, la salida (X) en las coordenadas (1,1)
 		m.resuelve(0, 0); 											// ahora, introducimos la entrada (S) en las coordenadas (8,1) y llamamos al algoritmo
 		imprimirRecorridoActual(); 											// imprimimos el laberinto ya resuelto (si tiene soluci�n)
+		System.out.println("La cantidad de presos encontrados en la cárcel es de: "+ presosEncontrados + " presos.");
+		int presosFaltantes = totalPresos-presosEncontrados;
+		System.out.println("Faltan " + presosFaltantes + " presos en la cárcel");
 	}
 
     
@@ -53,6 +57,7 @@ public class CarcelV2 {
 
 		if (carcel[x][y]=='P') { // si llegamos a una pared o al mismo punto,
 			presosEncontrados++;
+			carcel[x][y]='V';
 			return false; // entonces el laberinto no puede resolverse y termina.
 		}
 
@@ -60,7 +65,7 @@ public class CarcelV2 {
 			return false; // entonces el laberinto no puede resolverse y termina.
 		}
     	 
-    	 if (carcel[x][y]=='*' || carcel[x][y]=='+') { // si llegamos a una pared o al mismo punto,
+    	 if (carcel[x][y]=='*' || carcel[x][y]=='+' || carcel[x][y]=='V') { // si llegamos a una pared o al mismo punto,
     		 return false; // entonces el laberinto no puede resolverse y termina.
     	 }
     	 
@@ -86,7 +91,7 @@ public class CarcelV2 {
 			}
 			salida += "\n"; // devolvemos esta variable con un salto de l�nea
 		}
-		System.out.println("Soluci�n");
+		System.out.println("Solución");
 		System.out.println(salida);
 	}
 
