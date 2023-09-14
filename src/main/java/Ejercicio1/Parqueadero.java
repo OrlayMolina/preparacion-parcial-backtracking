@@ -22,14 +22,10 @@ public class Parqueadero {
     /* --------------------- PRUEBA DEL ALGORITMO --------------------- */
     public static void main(String[] args) {
         Parqueadero camilo = new Parqueadero();
-        // introducimos en este caso, la salida (X) en las coordenadas (1,1)
-        camilo.resuelve(11, 0); 											// ahora, introducimos la entrada (S) en las coordenadas (8,1) y llamamos al algoritmo
-        imprimirRecorridoActual(); 											// imprimimos el laberinto ya resuelto (si tiene soluci�n)
+        camilo.resuelve(11, 0);
+        imprimirRecorridoActual();
 
     }
-
-
-
 
     /* ----------------- IMPLEMENTACI�N DEL ALGORITMO ----------------- */
     public void resuelve(int x, int y){ 				// permite introducir unas coordenadas (x, y)
